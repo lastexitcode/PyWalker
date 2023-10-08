@@ -3,6 +3,7 @@ using IronPython.Compiler.Ast;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using Microsoft.Scripting;
+using Microsoft.Scripting.Hosting;
 using Microsoft.Scripting.Runtime;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace PyWalker
 
         internal void WalkFile(string fileName)
         {
-            Python.CreateEngine();
+            SharedPythonEngine.Initialize();
 
             string content = File.ReadAllText(fileName);
             SourceUnit sourceUnit = DefaultContext.DefaultPythonContext.CreateFileUnit(fileName, content);
@@ -35,9 +36,10 @@ namespace PyWalker
 
             var pythonOptions = new PythonOptions();
 
-            Parser parser = Parser.CreateParser(context, pythonOptions);
-            PythonAst ast = parser.ParseFile(makeModule: false);
+            using Parser parser = Parser.CreateParser(context, pythonOptions);
 
+            PythonAst ast = parser.ParseFile(makeModule: false);
+           
             ast.Walk(this);
         }
 
