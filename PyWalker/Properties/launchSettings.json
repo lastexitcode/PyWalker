@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PyWalker": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\matt\\Documents\\test-candidate.py"
+    }
+  }
+}
